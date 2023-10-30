@@ -14,6 +14,7 @@ class Constants {
     
 //    MARK: - Strings
     static let kEmpty = ""
+    static let search = "Search"
     static let detail = "DETAIL"
     static let home = "HOME"
 }

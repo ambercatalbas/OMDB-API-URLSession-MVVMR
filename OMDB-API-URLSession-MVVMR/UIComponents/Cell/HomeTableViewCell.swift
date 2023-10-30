@@ -38,6 +38,7 @@ public class HomeTableViewCell: UITableViewCell, ReusableView {
     }
     
     private func configureContents() {
+        backgroundColor = .white
         iwPoster.contentMode = .scaleAspectFit
     }
     
