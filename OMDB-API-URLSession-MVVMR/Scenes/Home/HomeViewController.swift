@@ -13,12 +13,14 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     private let searchBar: UISearchBar = {
         let bar = UISearchBar()
         bar.backgroundColor = .green
+        bar.placeholder = Constants.search
         return bar
     }()
     
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(HomeTableViewCell.self)
+        tableView.backgroundColor = .white
         return tableView
     }()
     
@@ -33,6 +35,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
         col.showsHorizontalScrollIndicator = false
         col.isScrollEnabled = true
         col.register(HomeCollectionViewCell.self)
+        col.backgroundColor = .white
         return col
     }()
     
@@ -41,6 +44,10 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
         addSubViews()
         configureContents()
         initViewModels()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            self.view.endEditing(true)
     }
 }
 
