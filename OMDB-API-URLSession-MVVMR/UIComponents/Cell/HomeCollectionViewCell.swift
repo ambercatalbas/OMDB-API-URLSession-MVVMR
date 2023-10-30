@@ -25,6 +25,7 @@ public class HomeCollectionViewCell: UICollectionViewCell, ReusableView {
     }
     
     private func configureContents() {
+        backgroundColor = .white
         iwPoster.contentMode = .scaleAspectFit
     }
     
