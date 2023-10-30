@@ -9,6 +9,7 @@ import Foundation
 
 protocol DetailViewDataSource {
     var movie: Movie? {get set}
+    func dismisScene()
 }
 
 protocol DetailViewEventSource {}
@@ -23,19 +24,7 @@ final class DetailViewModel: BaseViewModel<DetailRouter>, DetailViewProtocol {
         self.movie = movie
     }
     
-    private func dismisScene() {
+    func dismisScene() {
         router.close()
-    }
-}
-
-public struct Movie {
-    var image: String?
-    var title: String?
-    var description: String?
-    
-   public init(image: String? = nil, title: String? = nil, description: String? = nil) {
-        self.image = image
-        self.title = title
-        self.description = description
     }
 }

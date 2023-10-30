@@ -12,6 +12,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     
     private let searchBar: UISearchBar = {
         let bar = UISearchBar()
+        bar.backgroundColor = .green
         return bar
     }()
     
@@ -24,24 +25,21 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 150, height: 100)
+        layout.itemSize = CGSize(width: 100, height: 150)
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 0
         layout.sectionInset = UIEdgeInsets(top: 2, left: 20, bottom: 2, right: 0)
         let col = UICollectionView(frame: .zero, collectionViewLayout: layout)
         col.showsHorizontalScrollIndicator = false
         col.isScrollEnabled = true
-        col.backgroundColor = .clear
         col.register(HomeCollectionViewCell.self)
         return col
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Home"
-        view.backgroundColor = .red
-        configureContents()
         addSubViews()
+        configureContents()
         initViewModels()
     }
 }
@@ -76,19 +74,47 @@ extension HomeViewController {
 extension HomeViewController {
     
     private func configureContents() {
+        title = Constants.home
+        view.backgroundColor = .white
+        self.addDelegates()
+    }
+    
+    func addDelegates() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        self.searchBar.delegate = self
     }
     
     func initViewModels() {
+        self.viewModel.generateInıtialize()
         
+        self.viewModel.didListUpdated = { [weak self] type in
+            guard let self = self else {return}
+            DispatchQueue.main.async {
+                switch type {
+                case .tableViewList:
+                    self.tableView.reloadData()
+                case .collectionViewList:
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
 }
 
 // MARK: - Actions
 extension HomeViewController {
+    
+}
+
+// MARK: - SearchBarDelegate
+extension HomeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard searchText.count > 0 else {return}
+        self.viewModel.searchTimer(text: searchText, searchType: .tableViewList)
+    }
     
 }
 
@@ -130,7 +156,17 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = self.viewModel.cellItemAtCollectionView(indexPath: indexPath).movie
         self.viewModel.showDetailScene(movie: movie)
-
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let position = scrollView.contentOffset.y
+        let positionx = scrollView.contentOffset.x
+        if positionx > (collectionView.contentSize.width - 50) - scrollView.frame.size.width {
+            self.viewModel.searchRemainingMovies(searchType: .collectionViewList)
+        }
+        
+        if position > (tableView.contentSize.height - 10) - scrollView.frame.size.height {
+            self.viewModel.searchRemainingMovies(searchType: .tableViewList)
+        }
+    }
 }
