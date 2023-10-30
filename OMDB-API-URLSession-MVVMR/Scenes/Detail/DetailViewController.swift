@@ -17,7 +17,7 @@ final class DetailViewController: BaseViewController<DetailViewModel> {
         return sview
     }()
     
-   private let vwContainer = UIView()
+    private let vwContainer = UIView()
     private let iwPoster = UIImageView()
     
     private let lblTitle: UILabel = {
@@ -34,8 +34,6 @@ final class DetailViewController: BaseViewController<DetailViewModel> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Detail"
-        view.backgroundColor = .yellow
         configureContents()
         addSubViews()
         initViewModels()
@@ -62,7 +60,7 @@ extension DetailViewController {
         }
         
         iwPoster.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview().inset(50)
+            make.top.left.right.equalToSuperview().inset(30)
         }
         
         lblTitle.snp.makeConstraints { make in
@@ -71,7 +69,7 @@ extension DetailViewController {
         }
         
         lblDesc.snp.makeConstraints { make in
-            make.top.equalTo(lblTitle).offset(20)
+            make.top.equalTo(lblTitle.snp.bottom).offset(20)
             make.left.right.equalToSuperview().inset(20)
             make.bottom.equalToSuperview()
         }
@@ -82,7 +80,9 @@ extension DetailViewController {
 extension DetailViewController {
     
     private func configureContents() {
-        
+        title = Constants.detail
+        view.backgroundColor = .yellow
+        iwPoster.contentMode = .scaleAspectFit
     }
     
     func initViewModels() {

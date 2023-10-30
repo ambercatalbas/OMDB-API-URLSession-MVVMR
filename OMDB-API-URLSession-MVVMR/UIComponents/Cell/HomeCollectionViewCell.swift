@@ -25,7 +25,7 @@ public class HomeCollectionViewCell: UICollectionViewCell, ReusableView {
     }
     
     private func configureContents() {
-        
+        iwPoster.contentMode = .scaleAspectFit
     }
     
     public func set(viewModel: HomeCollectionViewCellProtocol) {
@@ -43,7 +43,7 @@ extension HomeCollectionViewCell {
         addSubview(iwPoster)
         iwPoster.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview().inset(4)
-            make.height.width.equalTo(100)
+            make.height.equalTo(100)
         }
     }
 }

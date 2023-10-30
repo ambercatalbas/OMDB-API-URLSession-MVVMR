@@ -15,7 +15,7 @@ public class HomeTableViewCell: UITableViewCell, ReusableView {
     
     private let lblTitle: UILabel = {
         let lbl = UILabel()
-        lbl.numberOfLines = 1
+        lbl.numberOfLines = 2
         return lbl
     }()
     
@@ -38,7 +38,7 @@ public class HomeTableViewCell: UITableViewCell, ReusableView {
     }
     
     private func configureContents() {
-        
+        iwPoster.contentMode = .scaleAspectFit
     }
     
     public func set(viewModel: HomeTableViewCellProtocol) {
@@ -61,20 +61,19 @@ extension HomeTableViewCell {
         
         iwPoster.snp.makeConstraints { make in
             make.top.left.bottom.equalToSuperview().inset(4)
-            make.height.equalTo(100)
-            make.width.equalTo(125)
+            make.height.equalTo(150)
+            make.width.equalTo(100)
         }
         
         lblTitle.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(8)
             make.left.equalTo(iwPoster.snp.right).offset(8)
-            make.height.equalTo(20)
             make.right.equalToSuperview().inset(4)
         }
         
         lblDesc.snp.makeConstraints { make in
             make.top.equalTo(lblTitle.snp.bottom).offset(4)
-            make.left.equalTo(iwPoster.snp.right).offset(8)
+            make.left.equalTo(iwPoster.snp.right).offset(12)
             make.right.equalToSuperview().inset(4)
             make.bottom.lessThanOrEqualTo(4)
         }
